@@ -122,11 +122,16 @@ select.sel{
   transition:opacity .5s; max-width:92%;
 }
 #legend{
-  position:absolute; left:10px; bottom:10px; z-index:7; width:196px;
-  background:rgba(13,19,28,.88); backdrop-filter:blur(6px); border:1px solid var(--line);
-  border-radius:12px; padding:8px 10px; font-size:10.8px; color:var(--mut);
+  position:absolute; left:10px; bottom:10px; z-index:7; width:200px;
+  background:rgba(13,19,28,.82); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.09); box-shadow:var(--sh);
+  border-radius:14px; padding:9px 11px; font-size:10.8px; color:var(--mut);
 }
-#legend h4{margin:0 0 5px; font-size:10.5px; letter-spacing:.6px; text-transform:uppercase; color:var(--mut); font-weight:600;}
+#legend h4{margin:0 0 6px; font-size:10.5px; letter-spacing:.7px; text-transform:uppercase; color:var(--mut); font-weight:700;}
+#legend .lg-bar{margin:2px 0 4px;}
+#legend .lg-grad{display:block; height:10px; border-radius:6px;
+  background:linear-gradient(90deg,#5a6473,#4f86d8 25%,#e0b41d 50%,#ec7d1f 75%,#e23b3b);}
+#legend .lg-ticks{display:flex; justify-content:space-between; font-size:9px; color:var(--mut2); margin-top:3px; font-variant-numeric:tabular-nums;}
 #legend .row{display:flex; align-items:center; gap:7px; margin:3px 0;}
 #legend .sw{width:12px; height:12px; border-radius:4px; flex-shrink:0; box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);}
 #legend .note{margin-top:6px; padding-top:6px; border-top:1px dashed var(--line); color:var(--mut2); font-size:9.6px; line-height:1.35;}
@@ -382,17 +387,18 @@ details.grp .body{padding:2px 11px 10px;}
   /* нижняя панель вкладок (как в нативных приложениях) */
   #tabbar{
     display:flex; position:fixed; left:0; right:0; bottom:0; z-index:50;
-    background:rgba(10,15,21,.95); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
-    border-top:1px solid var(--line2);
+    background:rgba(10,15,21,.88); backdrop-filter:blur(18px) saturate(1.4); -webkit-backdrop-filter:blur(18px) saturate(1.4);
+    border-top:1px solid rgba(255,255,255,.08);
+    box-shadow:0 -8px 28px rgba(0,0,0,.4);
     padding:5px 6px calc(6px + var(--safeB));
   }
   #tabbar button{
     flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
-    min-height:56px; border-radius:12px; color:var(--mut2); font-size:10px; font-weight:600;
-    letter-spacing:.2px; padding:4px 2px;
+    min-height:56px; border-radius:12px; color:#9db0c2; font-size:10px; font-weight:600;
+    letter-spacing:.2px; padding:4px 2px; transition:color .18s, background .18s;
   }
-  #tabbar button svg{width:23px; height:23px;}
-  #tabbar button.on{color:var(--acc); background:rgba(57,197,224,.09);}
+  #tabbar button svg{width:24px; height:24px;}
+  #tabbar button.on{color:#eaf7fc; background:rgba(57,197,224,.14); box-shadow:inset 0 0 0 1px rgba(57,197,224,.22);}
 
   /* панель = выдвижная шторка над вкладками */
   #panel{
@@ -479,15 +485,18 @@ details.grp .body{padding:2px 11px 10px;}
 .wo-sub{ font-size:11.6px; color:var(--mut); line-height:1.5; margin-bottom:10px; }
 .wo-meta{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px; font-size:11px; color:var(--mut); margin:9px 0; }
 .wo-start{
-  width:100%; min-height:46px; border-radius:12px; font-size:14.5px; font-weight:700; color:#04141b;
+  width:100%; min-height:48px; border-radius:13px; font-size:14.5px; font-weight:700; color:#04141b;
   background:linear-gradient(135deg,var(--acc),#7ce4f5); border:1px solid #2e8ba1;
-  transition:transform .1s, filter .15s;
+  box-shadow:0 6px 20px rgba(57,197,224,.32), inset 0 1px 0 rgba(255,255,255,.35);
+  transition:transform .1s, filter .15s, box-shadow .15s;
 }
-.wo-start:hover{ filter:brightness(1.07); }
+.wo-start:hover{ filter:brightness(1.07); box-shadow:0 8px 26px rgba(57,197,224,.42), inset 0 1px 0 rgba(255,255,255,.35); }
 .wo-start:active{ transform:scale(.98); }
 .wo-opts{ display:flex; gap:16px; margin-top:10px; flex-wrap:wrap; }
 .wo-opts label{ display:flex; align-items:center; gap:7px; font-size:11.8px; color:var(--mut); cursor:pointer; }
 .wo-opts input{ width:18px; height:18px; accent-color:var(--acc); }
+.wo-vpick{ margin-top:9px; }
+.wo-vpick .wp-lab{ display:block; font-size:10.4px; letter-spacing:.5px; text-transform:uppercase; color:var(--mut2); font-weight:600; margin-bottom:5px; }
 
 .excard{ border:1px solid var(--line); border-radius:12px; background:var(--card); margin-bottom:8px; overflow:hidden; }
 .excard .ex-head{ display:flex; align-items:center; gap:10px; padding:9px 11px; cursor:pointer; }
@@ -641,10 +650,13 @@ details.grp .body{padding:2px 11px 10px;}
       <div id="hintDrag">Перетащите конечность мышью или пальцем — сустав согнётся. Пустое место — вращение камеры.</div>
       <div id="legend">
         <button class="lg-min" type="button" title="Свернуть">–</button>
-        <span class="lg-collapsed" title="Показать шкалу нагрузки"><i style="background:#5a6473"></i><i style="background:#4f86d8"></i><i style="background:#e0b41d"></i><i style="background:#ec7d1f"></i><i style="background:#e23b3b"></i>шкала нагрузки</span>
-        <div class="lg-body">
+        <span class="lg-collapsed" title="Показать шкалу нагрузки"><i class="lg-grad" style="height:8px; width:44px; border-radius:4px;"></i>шкала нагрузки</span>
+          <div class="lg-body">
           <h4>Расчётная нагрузка</h4>
-          <div class="row"><span class="sw" style="background:#5a6473"></span>не задействована / не определена</div>
+          <div class="lg-bar" title="Шкала нагрузки мышц">
+            <i class="lg-grad"></i>
+            <div class="lg-ticks"><span>0</span><span>25</span><span>50</span><span>75</span><span>100%</span></div>
+          </div>
           <div class="row"><span class="sw" style="background:#4f86d8"></span>низкая (до 25%)</div>
           <div class="row"><span class="sw" style="background:#e0b41d"></span>средняя (25–50%)</div>
           <div class="row"><span class="sw" style="background:#ec7d1f"></span>высокая (50–75%)</div>
@@ -731,7 +743,14 @@ details.grp .body{padding:2px 11px 10px;}
             <label><input type="checkbox" id="woSnd" checked> Звуковой таймер</label>
             <label><input type="checkbox" id="woVoice" checked> Голосовой тренер</label>
           </div>
-          <div class="knote">Во время тренировки модель становится «рентгеновской»: работающие мышцы подсвечиваются по шкале нагрузки. Оставляйте экран включённым — при сворачивании вкладки сработает автопауза.</div>
+          <div class="wo-vpick">
+            <span class="wp-lab">Голос тренера</span>
+            <div class="seg" id="woVkind">
+              <button type="button" data-vk="m" class="on" style="flex:1">Дмитрий</button>
+              <button type="button" data-vk="f" style="flex:1">Светлана</button>
+            </div>
+          </div>
+          <div class="knote">Голос — студийная запись (нейросетевые дикторы), а не робот браузера. Во время тренировки модель становится «рентгеновской»: работающие мышцы подсвечиваются по шкале нагрузки. При сворачивании вкладки сработает автопауза.</div>
         </div>
         <div class="sec">
           <h4>Комплекс (выполняйте по порядку) <span class="mut2 small">нажмите на упражнение — техника, мышцы, повторения</span></h4>
@@ -825,23 +844,23 @@ details.grp .body{padding:2px 11px 10px;}
   <footer id="infobar"><div id="ibCards" class="ibcards"></div></footer>
   <nav id="tabbar" aria-label="Основная навигация">
     <button type="button" data-tab="workout" class="on">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 10v3.5l2.5 2M9.5 2.5h5"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 10v3.5l2.5 2M9.5 2.5h5"/></svg>
       <span>Тренировка</span>
     </button>
     <button type="button" data-tab="pose">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.2"/><path d="M12 7.5v5m0 0l-3.5 6m3.5-6l3.5 6M6.5 10.5l5.5-1.5 5.5 1.5"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.2"/><path d="M12 7.5v5m0 0l-3.5 6m3.5-6l3.5 6M6.5 10.5l5.5-1.5 5.5 1.5"/></svg>
       <span>Поза</span>
     </button>
     <button type="button" data-tab="muscles">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9.5" width="3.4" height="5" rx="1"/><rect x="17.6" y="9.5" width="3.4" height="5" rx="1"/><path d="M6.4 12h11.2M8.6 8.4v7.2M15.4 8.4v7.2"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9.5" width="3.4" height="5" rx="1"/><rect x="17.6" y="9.5" width="3.4" height="5" rx="1"/><path d="M6.4 12h11.2M8.6 8.4v7.2M15.4 8.4v7.2"/></svg>
       <span>Мышцы</span>
     </button>
     <button type="button" data-tab="params">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 8h3.6M12.4 8H20M4 16h7.6M16.4 16H20"/><circle cx="10" cy="8" r="2.4"/><circle cx="14" cy="16" r="2.4"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M4 8h3.6M12.4 8H20M4 16h7.6M16.4 16H20"/><circle cx="10" cy="8" r="2.4"/><circle cx="14" cy="16" r="2.4"/></svg>
       <span>Параметры</span>
     </button>
     <button type="button" data-tab="compare">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="6" width="7" height="12" rx="1.6"/><rect x="13.5" y="6" width="7" height="12" rx="1.6"/><path d="M12 4v16"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="6" width="7" height="12" rx="1.6"/><rect x="13.5" y="6" width="7" height="12" rx="1.6"/><path d="M12 4v16"/></svg>
       <span>Сравнить</span>
     </button>
   </nav>
@@ -967,27 +986,49 @@ function initScene(){
   renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.outputEncoding = THREE.sRGBEncoding;
+  /* кинематографичный тон-маппинг + мягкие тени (пересчёт по требованию — экономия мобильного GPU) */
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.08;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.shadowMap.autoUpdate = false;
+  renderer.shadowMap.needsUpdate = true;
 
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(42, 1, 0.05, 60);
 
-  /* освещение: мягкое студийное, без теней (производительность мобильных) */
-  const hemi = new THREE.HemisphereLight(0x9db4cc, 0x141a20, 0.95);
+  /* студийный свет: тёплый рисующий с тенью + холодный контровой (силуэт читается на тёмном фоне) */
+  const hemi = new THREE.HemisphereLight(0x9db4cc, 0x141a20, 0.72);
   scene.add(hemi);
-  const key = new THREE.DirectionalLight(0xffffff, 0.85); key.position.set(2.4, 3.4, 3.2);
-  scene.add(key);
-  const rim = new THREE.DirectionalLight(0x5fa8d8, 0.4); rim.position.set(-2.6, 2.2, -3.4);
+  const key = new THREE.DirectionalLight(0xfff3e2, 1.2); key.position.set(2.4, 3.6, 3.0);
+  key.castShadow = true;
+  key.shadow.mapSize.set(1024, 1024);
+  key.shadow.camera.left = -1.5; key.shadow.camera.right = 1.5;
+  key.shadow.camera.top = 2.3; key.shadow.camera.bottom = -0.4;
+  key.shadow.camera.near = 0.5; key.shadow.camera.far = 12;
+  key.shadow.bias = -0.0004; key.shadow.normalBias = 0.02;
+  scene.add(key); R.keyLight = key;
+  const rim = new THREE.DirectionalLight(0x6fd6ff, 0.62); rim.position.set(-2.6, 2.4, -3.4);
   scene.add(rim);
-  const fill = new THREE.DirectionalLight(0xffffff, 0.22); fill.position.set(-1.5, 0.6, 2.8);
+  const fill = new THREE.DirectionalLight(0xcfe0ff, 0.3); fill.position.set(-1.5, 0.6, 2.8);
   scene.add(fill);
 
-  /* пол: тёмный диск с полярной сеткой (CanvasTexture, дёшево) */
+  /* пол: матовый подиум-диск (принимает тень — фигура «стоит» на земле) */
+  const floor = new THREE.Mesh(
+    new THREE.CircleGeometry(2.6, 48),
+    new THREE.MeshStandardMaterial({ color: 0x10161f, roughness: 0.94, metalness: 0 })
+  );
+  floor.rotation.x = -Math.PI / 2; floor.position.y = -0.03;
+  floor.receiveShadow = true;
+  scene.add(floor); R.floor = floor;
+
+  /* полярная сетка поверх подиума (CanvasTexture, дёшево) */
   const fc = document.createElement('canvas'); fc.width = fc.height = 512;
   const g = fc.getContext('2d');
   const grad = g.createRadialGradient(256, 256, 40, 256, 256, 250);
-  grad.addColorStop(0, 'rgba(38,58,78,0.85)'); grad.addColorStop(0.75, 'rgba(20,30,42,0.55)'); grad.addColorStop(1, 'rgba(10,14,19,0)');
+  grad.addColorStop(0, 'rgba(64,96,128,0.55)'); grad.addColorStop(0.7, 'rgba(30,46,64,0.35)'); grad.addColorStop(1, 'rgba(10,14,19,0)');
   g.fillStyle = grad; g.beginPath(); g.arc(256, 256, 252, 0, Math.PI * 2); g.fill();
-  g.strokeStyle = 'rgba(90,130,165,0.28)'; g.lineWidth = 1.5;
+  g.strokeStyle = 'rgba(110,155,195,0.22)'; g.lineWidth = 1.5;
   for (let i = 1; i <= 4; i++){ g.beginPath(); g.arc(256, 256, i * 56, 0, Math.PI * 2); g.stroke(); }
   for (let a = 0; a < 12; a++){
     const ang = a * Math.PI / 6;
@@ -995,12 +1036,12 @@ function initScene(){
     g.lineTo(256 + Math.cos(ang) * 224, 256 + Math.sin(ang) * 224); g.stroke();
   }
   const floorTex = new THREE.CanvasTexture(fc);
-  const floor = new THREE.Mesh(
+  const grid = new THREE.Mesh(
     new THREE.PlaneGeometry(3.4, 3.4),
-    new THREE.MeshBasicMaterial({ map: floorTex, transparent: true, depthWrite: false })
+    new THREE.MeshBasicMaterial({ map: floorTex, transparent: true, depthWrite: false, opacity: 0.6 })
   );
-  floor.rotation.x = -Math.PI / 2; floor.position.y = 0.002;
-  scene.add(floor); R.floor = floor;
+  grid.rotation.x = -Math.PI / 2; grid.position.y = -0.027;
+  scene.add(grid);
 
   /* центр масс: маркер + отвес + точка опоры */
   const comGrp = new THREE.Group();
@@ -1209,7 +1250,7 @@ function buildBody(){
   BODY.matBone = matBone;
   const US = new THREE.SphereGeometry(1, 14, 11); // заготовка единичной сферы
   const matJoint = new THREE.MeshStandardMaterial({ color: 0x39c5e0, roughness: 0.35, metalness: 0.2, emissive: 0x0c2a33 });
-  const matSkin = new THREE.MeshStandardMaterial({ color: 0xd8b28c, roughness: 0.62, metalness: 0.02, transparent: true, opacity: 0.98 });
+  const matSkin = new THREE.MeshStandardMaterial({ color: 0xdbb391, roughness: 0.68, metalness: 0.02, transparent: true, opacity: 0.98 });
 
   const root = new THREE.Group(); root.name = 'root';
   root.position.set(0, d.standY, 0);
@@ -1659,6 +1700,7 @@ function updateDumbbellVis(){
 S.ankleExtra = { R: 0, L: 0 }; // добавка к авто-углу стопы (ручное управление)
 S.rootOff = { x: 0, y: 0, z: 0 };
 let _poseDirty = true;    // геометрия мышц пересчитывается только при изменении позы
+let _shadowT = 0;         // момент последнего пересчёта теневой карты
 function poseDirty(){ _poseDirty = true; }
 
 /* Естественная нейтральная стойка: небольшое отведение плеч и лёгкий сгиб локтей.
@@ -3780,22 +3822,38 @@ const UI = {
 
 
 /* ============ 12b. ЗВУКОВОЙ ТАЙМЕР И ГОЛОСОВОЙ ТРЕНЕР ================= */
-/* Web Audio API (короткие синтезированные сигналы) + SpeechSynthesis ru-RU.
-   AudioContext создаётся лениво по первому касанию (требование мобильных браузеров). */
+/* Два слоя звука:
+   1) Web Audio API — короткие синтезированные сигналы (тики, отсчёт, фанфары);
+   2) ГОЛОС ТРЕНЕРА — заранее записанные студийные нейро-голоса (Dmitry/Svetlana,
+      mp3 в ./audio/), воспроизводятся через тот же AudioContext (decodeAudioData).
+      Файлы подгружаются лениво и кешируются; если недоступны (например, файл
+      открыт локально без папки audio) — автоматический откат на системный
+      SpeechSynthesis ru-RU. AudioContext создаётся по первому касанию
+      (требование мобильных браузеров). */
 const AUD = {
-  ctx: null, snd: true, voice: true, ruVoice: null,
+  ctx: null, snd: true, voice: true, vkind: 'm',
+  vGain: null, bufs: new Map(), queue: [], cur: null, _gen: 0,
+  failed: false, ruVoice: null, _fb: '',
   init(){
     if (!this.ctx){
       const AC = window.AudioContext || window.webkitAudioContext;
-      if (AC){ try { this.ctx = new AC(); } catch (e){ this.ctx = null; } }
+      if (AC){
+        try {
+          this.ctx = new AC();
+          this.vGain = this.ctx.createGain();
+          this.vGain.gain.value = 1;
+          this.vGain.connect(this.ctx.destination);
+        } catch (e){ this.ctx = null; }
+      }
     }
     if (this.ctx && this.ctx.state === 'suspended'){ this.ctx.resume().catch(() => {}); }
     if (window.speechSynthesis){
       const pick = () => {
         try {
           const vs = window.speechSynthesis.getVoices();
-          this.ruVoice = null;
-          for (const v of vs){ if (/^ru/i.test(v.lang)){ this.ruVoice = v; break; } }
+          /* системный резерв: предпочитаем «именованые» голоса — они заметно лучше */
+          const ru = vs.filter(v => /^ru/i.test(v.lang));
+          this.ruVoice = ru.find(v => /milena|yuri|alena|google/i.test(v.name)) || ru[0] || null;
         } catch (e) {}
       };
       pick();
@@ -3823,18 +3881,80 @@ const AUD = {
   go(){ this.beep(1040, 0.24, 0.55, 'sine'); },            // старт
   dbl(){ this.beep(520, 0.11, 0.45); this.beep(680, 0.11, 0.45, 'sine', 0.15); }, // конец подхода
   fanfare(){ [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => this.beep(f, 0.16, 0.5, 'triangle', i * 0.14)); },
-  say(text){
-    if (!this.voice || !window.speechSynthesis) return;
+
+  /* ---------- студийный голосовой движок ---------- */
+  vk(){ return this.vkind === 'f' ? 's' : 'd'; },
+  urlFor(k){ return 'audio/' + this.vk() + '/' + k + '.mp3'; },
+  setVoice(kind){
+    this.vkind = kind === 'f' ? 'f' : 'm';
+    this.shut();
+    /* кеш другого голоса не нужен — освобождаем память */
+    for (const ck of Array.from(this.bufs.keys())){
+      if (!ck.startsWith(this.vk() + ':')) this.bufs.delete(ck);
+    }
+  },
+  load(k){
+    if (this.failed) return Promise.resolve(null);
+    const ck = this.vk() + ':' + k;
+    if (this.bufs.has(ck)) return Promise.resolve(this.bufs.get(ck));
+    if (!this.ctx) this.init();               /* декодирование работает и в suspended-контексте */
+    if (!this.ctx || location.protocol === 'file:'){ this.failed = true; return Promise.resolve(null); }
+    return fetch(this.urlFor(k)).then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.arrayBuffer();
+    }).then(ab => new Promise((res, rej) => {
+      /* callback-форма decodeAudioData для старых Safari + промис */
+      const p = this.ctx.decodeAudioData(ab, res, rej);
+      if (p && p.then) p.then(res).catch(rej);
+    })).then(buf => {
+      this.bufs.set(ck, buf);
+      return buf;
+    }).catch(() => { this.failed = true; return null; });
+  },
+  preload(keys){ if (this.voice && !this.failed) keys.forEach(k => { this.load(k); }); },
+  /* проигрывает цепочку реплик; fallbackText — текст для системного синтеза */
+  play(keys, fallbackText){
+    if (!this.voice) return;
+    this.shut();
+    const gen = ++this._gen;
+    this.queue = keys.slice();
+    this._fb = fallbackText || '';
+    this._step(gen);
+  },
+  _step(gen){
+    if (gen !== this._gen || !this.voice) return;
+    if (!this.queue.length) return;
+    const k = this.queue.shift();
+    this.load(k).then(buf => {
+      if (gen !== this._gen || !this.voice) return;
+      if (!buf){ this.queue = []; if (this._fb) this.tts(this._fb); return; }
+      try {
+        const src = this.ctx.createBufferSource();
+        src.buffer = buf; src.connect(this.vGain || this.ctx.destination);
+        src.onended = () => { if (gen === this._gen) this._step(gen); };
+        this.cur = src; src.start();
+      } catch (e){ this.queue = []; }
+    });
+  },
+  /* системный синтез — только как резерв при недоступности mp3 */
+  tts(text){
+    if (!this.voice || !window.speechSynthesis || !text) return;
     try {
       window.speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
       u.lang = 'ru-RU';
       if (this.ruVoice) u.voice = this.ruVoice;
-      u.rate = 1.02; u.pitch = 1.0; u.volume = 1;
+      u.rate = 1.0; u.pitch = 1.0; u.volume = 1;
       window.speechSynthesis.speak(u);
     } catch (e) {}
   },
-  shut(){ try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {} }
+  say(text){ this.tts(text); },
+  shut(){
+    this._gen++;
+    this.queue = [];
+    if (this.cur){ try { this.cur.onended = null; this.cur.stop(); } catch (e) {} this.cur = null; }
+    try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {}
+  }
 };
 
 /* ===== 12c. КОМПЛЕКС ДОМАШНИХ УПРАЖНЕНИЙ (без инвентаря) ============== */
@@ -4014,7 +4134,7 @@ const WO = {
   /* ---------- localStorage: настройки и счётчик тренировок ---------- */
   ls(){ try { return JSON.parse(localStorage.getItem('mm3d_wo') || '{}') || {}; } catch (e) { return {}; } },
   saveLS(o){ try { localStorage.setItem('mm3d_wo', JSON.stringify(o)); } catch (e) {} },
-  persist(){ const st = this.ls(); st.snd = AUD.snd; st.voice = AUD.voice; st.level = this.level; this.saveLS(st); },
+  persist(){ const st = this.ls(); st.snd = AUD.snd; st.voice = AUD.voice; st.level = this.level; st.vk = AUD.vkind; this.saveLS(st); },
 
   cur(){ return EXDB[this.exI]; },
   restSec(){ return { nov: 60, mid: 45, adv: 30 }[this.level] || 45; },
@@ -4047,6 +4167,7 @@ const WO = {
     const st = this.ls();
     if (st.snd === false){ AUD.snd = false; const el = U.el('woSnd'); if (el) el.checked = false; }
     if (st.voice === false){ AUD.voice = false; const el = U.el('woVoice'); if (el) el.checked = false; }
+    if (st.vk === 'f') AUD.setVoice('f');
     if (st.level && EXDB[0].lv[st.level]){ this.level = st.level; }
     document.querySelectorAll('#woLevel button').forEach(b => b.classList.toggle('on', b.dataset.lvl === this.level));
     document.querySelectorAll('#woLevel button').forEach(b => b.addEventListener('click', () => {
@@ -4062,6 +4183,24 @@ const WO = {
     U.el('btnWoClose').addEventListener('click', () => { U.el('woDone').classList.add('hidden'); this.updMeta(); });
     U.el('woSnd').addEventListener('change', e => { AUD.snd = e.target.checked; this.persist(); });
     U.el('woVoice').addEventListener('change', e => { AUD.voice = e.target.checked; if (!AUD.voice) AUD.shut(); this.persist(); });
+    /* выбор голоса тренера: Дмитрий / Светлана (студийная запись) */
+    document.querySelectorAll('#woVkind button').forEach(b => {
+      b.classList.toggle('on', b.dataset.vk === AUD.vkind);
+      b.addEventListener('click', () => {
+        AUD.init(); AUD.setVoice(b.dataset.vk);
+        document.querySelectorAll('#woVkind button').forEach(x => x.classList.toggle('on', x === b));
+        this.persist();
+        AUD.preload(['go', 'resume']);
+        AUD.play([b.dataset.vk === 'f' ? 'resume' : 'go']);   /* мгновенное прослушивание */
+      });
+    });
+    /* фоновая предзагрузка базового набора реплик (не мешает загрузке 3D) */
+    setTimeout(() => {
+      AUD.preload(['go', 'n1', 'n2', 'n3', 'pause', 'resume', 'half', 'lastrep', 'tenleft',
+        'set1', 'set2', 'set3', 'set4', 'setlast', 'setdone', 'exdone', 'nextset',
+        'start_first', 'finish_ok', 'finish_stop',
+        'rest_60', 'rest_45', 'rest_30', 'rest_50']);
+    }, 2500);
     /* автопауза при сворачивании вкладки/экрана */
     document.addEventListener('visibilitychange', () => {
       if (document.hidden && this.active && !this.paused && !this.preview){
@@ -4153,10 +4292,8 @@ const WO = {
     U.el('woPlayer').classList.remove('hidden');
     U.el('panel').classList.remove('open');
     U.el('btnWoPause').textContent = 'Пауза';
-    this.enterExercise(true);
-    const first = this.exI === 0;
-    AUD.say(first ? 'Начинаем тренировку! Сначала разминка.' : 'Продолжаем с упражнения: ' + this.cur().name + '.');
-    toast(first ? 'Тренировка началась — двигайтесь вместе с моделью' : 'Начали с упражнения «' + this.cur().name + '»');
+    this.enterExercise(true, this.exI === 0 ? ['start_first'] : ['at_' + this.cur().id]);
+    toast(this.exI === 0 ? 'Тренировка началась — двигайтесь вместе с моделью' : 'Начали с упражнения «' + this.cur().name + '»');
   },
   restore(){
     this.active = false; this.preview = false; this.paused = false;
@@ -4207,7 +4344,7 @@ const WO = {
     ORBIT.r = lying ? (portrait ? 4.3 : 2.9) : (portrait ? 4.1 : 3.1);
     ORBIT.update();
   },
-  enterExercise(first){
+  enterExercise(first, prepend){
     const ex = this.cur();
     if (!ex) return this.finish(false);
     this.setN = 0;
@@ -4223,10 +4360,10 @@ const WO = {
     const nx = EXDB[this.exI + 1];
     U.el('woNext').textContent = nx ? 'Далее: ' + nx.name : 'Последнее упражнение комплекса';
     U.el('woSet').textContent = this.doseStr(ex) + ' · отдых ' + this.restSec() + ' с';
-    AUD.say('Упражнение: ' + ex.name + '. ' +
-      lv.s + ' ' + this.plural(lv.s, 'подход', 'подхода', 'подходов') + ' по ' +
-      (ex.type === 'time' ? lv.r + ' ' + this.plural(lv.r, 'секунда', 'секунды', 'секунд') : lv.r + ' ' + this.plural(lv.r, 'повторение', 'повторения', 'повторений')) +
-      '. ' + ex.cues[0]);
+    /* студийная озвучка: заставка (+dose по уровню) + предзагрузка соседних реплик */
+    AUD.play((prepend || []).concat(['intro_' + ex.id + '_' + this.level]), 'Упражнение: ' + ex.name);
+    AUD.preload(['tip_' + ex.id]);
+    if (nx) AUD.preload(['next_' + nx.id, 'intro_' + nx.id + '_' + this.level]);
   },
   beginWork(){
     const ex = this.cur(); if (!ex) return;
@@ -4234,11 +4371,12 @@ const WO = {
     this.resetToBase(ex);
     this.setPhase('work', 0);
     this.reps = 0; this.secs = 0;
-    this._halfTold = false; this._tenTold = false;
+    this._halfTold = false; this._tenTold = false; this._tipTold = false;
     U.el('woPhase').textContent = ex.warm ? 'Разминка' : 'Работа';
     AUD.go();
+    AUD.play(['go'], 'Поехали!');
   },
-  beginRest(){
+  beginRest(prepend){
     const ex = this.cur(); if (!ex) return;
     const lv = ex.lv[this.level];
     const lastSet = this.setN >= lv.s - 1;
@@ -4257,8 +4395,7 @@ const WO = {
       ? (EXDB[this.exI + 1] ? 'Далее: ' + EXDB[this.exI + 1].name : 'Далее: завершение')
       : 'Далее: подход ' + (this.setN + 2) + ' из ' + lv.s;
     AUD.dbl();
-    AUD.say('Отдых ' + Math.round(this.tPh) + ' ' + this.plural(this.tPh, 'секунда', 'секунды', 'секунд') + '. ' +
-      (lastSet ? 'Следующее упражнение: ' + nx.name : 'Следующий подход.'));
+    AUD.play((prepend || []).concat(['rest_' + Math.round(this.tPh), lastSet ? 'next_' + nx.id : 'nextset']), 'Отдых.');
   },
   next(){
     const ex = this.cur(); if (!ex) return;
@@ -4266,8 +4403,7 @@ const WO = {
     if (this.phase === 'work'){
       this.stats.sets++;
       AUD.dbl();
-      AUD.say(this.setN >= ex.lv[this.level].s - 1 ? 'Упражнение выполнено! Отлично!' : 'Подход завершён. Молодец!');
-      this.beginRest();
+      this.beginRest([this.setN >= ex.lv[this.level].s - 1 ? 'exdone' : 'setdone']);
       return;
     }
     if (this.phase === 'rest'){
@@ -4281,7 +4417,7 @@ const WO = {
         U.el('woPhase').textContent = ex.warm ? 'Разминка' : 'Работа';
         U.el('woName').textContent = ex.name;
         U.el('woCue').textContent = ex.cues[(this.cueI + 1) % ex.cues.length];
-        AUD.say('Подход ' + (this.setN + 1) + ' из ' + lv.s + (this.setN === lv.s - 1 ? '. Последний!' : '.'));
+        AUD.play([this.setN === lv.s - 1 ? 'setlast' : 'set' + Math.min(4, this.setN + 1)]);
       }
     }
   },
@@ -4294,7 +4430,7 @@ const WO = {
     }
     this.restore();
     AUD.fanfare();
-    AUD.say(stopped ? 'Тренировка остановлена. Возвращайтесь!' : 'Тренировка завершена! Отличная работа!');
+    AUD.play([stopped ? 'finish_stop' : 'finish_ok']);
     U.el('woDoneTitle').textContent = stopped ? 'Тренировка остановлена' : 'Тренировка завершена';
     U.el('woDoneStats').innerHTML =
       (stopped ? 'Вы остановились раньше конца — это тоже нормально. ' : 'Все упражнения выполнены. ') +
@@ -4310,10 +4446,10 @@ const WO = {
     if (!this.active || this.preview) return;
     this.paused = force === true ? true : !this.paused;
     U.el('btnWoPause').textContent = this.paused ? 'Продолжить' : 'Пауза';
-    if (this.paused){ AUD.shut(); }
+    if (this.paused){ AUD.shut(); AUD.play(['pause'], 'Пауза.'); }
     else {
       this.setPhase(this.phase, Math.max(this.tPh, 3.2));
-      AUD.say('Продолжаем!');
+      AUD.play(['resume'], 'Продолжаем!');
       AUD.cnt();
     }
   },
@@ -4447,7 +4583,7 @@ const WO = {
       this.clipT = (this.clipT + dt * 0.55 / ex.dur) % 1;
       this.applyClip(ex, this.clipT);
       const w = Math.max(0, Math.ceil(this.tPh));
-      if (w !== this.lastWhole){ this.lastWhole = w; if (w >= 1 && w <= 3) AUD.cnt(); }
+      if (w !== this.lastWhole){ this.lastWhole = w; if (w >= 1 && w <= 3){ AUD.cnt(); AUD.play(['n' + w]); } }
       this.setRing(this.tPh / this.tDur, Math.max(0, w), 'до старта', '#7c9cff');
       if (this.tPh <= 0) this.beginWork();
     }
@@ -4464,20 +4600,28 @@ const WO = {
         AUD.tick();
       }
       if (ex.type === 'reps'){
+        /* «мышечный учитель»: ключевая подсказка по технике в первом подходе */
+        if (!this._tipTold && this.setN === 0 && this.reps >= Math.max(2, Math.round(lv.r * 0.3)) && this.reps < lv.r - 1){
+          this._tipTold = true; AUD.play(['tip_' + ex.id]);
+        }
         if (!this._halfTold && this.reps >= Math.floor(lv.r / 2) && lv.r >= 8){
-          this._halfTold = true; AUD.say('Половина! Держите темп.');
+          this._halfTold = true; AUD.play(['half'], 'Половина! Держите темп.');
         }
         if (this.reps >= lv.r){ this.next(); return; }
         if (!this._tenTold && this.reps === lv.r - 1){
-          this._tenTold = true; AUD.say('Последнее повторение!');
+          this._tenTold = true; AUD.play(['lastrep'], 'Последнее повторение!');
         }
         this.setRing(this.reps / lv.r, lv.r - this.reps, 'повт. осталось', null);
       } else {
         this.secs += dt; this.stats.secs += dt;
         const left = Math.max(0, lv.r - this.secs);
-        if (!this._tenTold && left <= 10.05 && left > 5){ this._tenTold = true; AUD.say('Осталось десять секунд.'); }
+        /* подсказка по технике на временных упражнениях (планка и др.) */
+        if (!this._tipTold && this.setN === 0 && this.secs >= lv.r * 0.3){
+          this._tipTold = true; AUD.play(['tip_' + ex.id]);
+        }
+        if (!this._tenTold && left <= 10.05 && left > 5){ this._tenTold = true; AUD.play(['tenleft'], 'Осталось десять секунд.'); }
         const w = Math.ceil(left);
-        if (w !== this.lastWhole){ this.lastWhole = w; if (w >= 1 && w <= 3) AUD.cnt(); }
+        if (w !== this.lastWhole){ this.lastWhole = w; if (w >= 1 && w <= 3){ AUD.cnt(); AUD.play(['n' + w]); } }
         if (left <= 0){ this.next(); return; }
         this.setRing(this.secs / lv.r, w, 'сек', null);
       }
@@ -4492,7 +4636,7 @@ const WO = {
       this.clipT = (this.clipT + dt * 0.5 / demo.dur) % 1;
       this.applyClip(demo, this.clipT);
       const w = Math.max(0, Math.ceil(this.tPh));
-      if (w !== this.lastWhole){ this.lastWhole = w; if (w >= 1 && w <= 3) AUD.cnt(); }
+      if (w !== this.lastWhole){ this.lastWhole = w; if (w >= 1 && w <= 3){ AUD.cnt(); AUD.play(['n' + w]); } }
       this.setRing(this.tPh / this.tDur, w, 'отдых', '#e2b33c');
       if (this.tPh <= 0) this.next();
     }
@@ -4515,6 +4659,11 @@ function loop(){
         BODY.root.updateMatrixWorld(true);
         updateMuscles();
         _poseDirty = false;
+        /* тень пересчитывается не чаще 15 Гц — визуально плавно, GPU разгружен */
+        if (renderer.shadowMap.enabled && now - _shadowT > 66){
+          renderer.shadowMap.needsUpdate = true;
+          _shadowT = now;
+        }
       }
       UI.tick(dt, now / 1000);
     }
@@ -4534,6 +4683,9 @@ function init(){
   initPose();
   buildBody();
   buildMuscles();
+  /* всё тело отбрасывает тень на подиум (пересчёт — по poseDirty, см. loop) */
+  BODY.root.traverse(o => { if (o.isMesh) o.castShadow = true; });
+  renderer.shadowMap.needsUpdate = true;
   applyViewMode();
   UI.init();
   WO.init();
